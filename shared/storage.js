@@ -32,7 +32,7 @@
     normalizeSettings(settings) {
       const validThemes = new Set(['system', 'light', 'dark']);
       const requestedTheme = typeof settings?.theme === 'string'
-        ? settings.theme.toLowerCase()
+        ? settings.theme
         : DEFAULT_SETTINGS.theme;
 
       return {
