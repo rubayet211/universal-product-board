@@ -15,6 +15,7 @@ class SidebarController {
     this.currentTabId = null;
     this.currentWindowId = null;
     this.hasLiveAccess = false;
+    this.showLivePreview = true;
     this.isScanningCurrentPage = false;
     this.contextMenuTarget = null;
     this.toastTimeout = null;
@@ -35,6 +36,7 @@ class SidebarController {
       closeButton: document.getElementById('close-button'),
       searchInput: document.getElementById('search-input'),
       clearSearch: document.getElementById('clear-search'),
+      currentPageSection: document.getElementById('current-page-section'),
       currentPageStatus: document.getElementById('current-page-status'),
       currentPageEmpty: document.getElementById('current-page-empty'),
       currentPageLoading: document.getElementById('current-page-loading'),
@@ -54,6 +56,7 @@ class SidebarController {
       sidebarDonateButton: document.getElementById('sidebar-donate-button'),
       sidebarDismissDonation: document.getElementById('sidebar-dismiss-donation'),
       sidebarDonateLink: document.getElementById('sidebar-donate-link'),
+      compactSaveCurrent: document.getElementById('compact-save-current'),
       productsCount: document.getElementById('products-count'),
       gridView: document.getElementById('grid-view'),
       listView: document.getElementById('list-view'),
@@ -72,10 +75,13 @@ class SidebarController {
     this.storage.addChangeListener((changes) => {
       this.handleStorageChange(changes);
     });
+    await this.loadSettings();
     await this.syncLiveAccessState();
     await this.loadProducts();
     await this.updateDonationReminder();
-    await this.refreshCurrentPage();
+    if (this.showLivePreview) {
+      await this.refreshCurrentPage();
+    }
     console.log('Sidebar initialized');
   }
 
@@ -133,6 +139,10 @@ class SidebarController {
     this.elements.sidebarDonateLink.addEventListener('click', (event) => {
       event.preventDefault();
       this.handleDonateClick();
+    });
+
+    this.elements.compactSaveCurrent.addEventListener('click', () => {
+      this.handleCompactCurrentPageSave();
     });
 
     this.elements.currentPreviewImage.addEventListener('error', () => {
@@ -205,6 +215,35 @@ class SidebarController {
     });
   }
 
+  async loadSettings() {
+    const settings = await this.storage.getSettings();
+    this.applySidebarSettings(settings);
+  }
+
+  applySidebarSettings(settings) {
+    const showLivePreview = settings?.showLivePreview !== false;
+    const changed = this.showLivePreview !== showLivePreview;
+
+    this.showLivePreview = showLivePreview;
+    this.elements.currentPageSection.hidden = !showLivePreview;
+    this.elements.compactSaveCurrent.hidden = showLivePreview;
+
+    if (!showLivePreview) {
+      this.resetCurrentPageTransientState();
+      this.currentPageResult = null;
+      this.currentPageExistingProduct = null;
+      this.currentTabId = null;
+      this.currentWindowId = null;
+      return;
+    }
+
+    if (changed) {
+      this.refreshCurrentPage({ force: true }).catch((error) => {
+        console.error('Failed to refresh current page after showing live preview:', error);
+      });
+    }
+  }
+
   async loadProducts() {
     try {
       this.showLoading(true);
@@ -224,6 +263,14 @@ class SidebarController {
       this.updateDonationReminder().catch((error) => {
         console.error('Failed to refresh donation reminder after storage update:', error);
       });
+    }
+
+    if (changes[this.storageKeys.SETTINGS]) {
+      this.storage.getSettings()
+        .then((settings) => this.applySidebarSettings(settings))
+        .catch((error) => {
+          console.error('Failed to refresh sidebar settings after storage update:', error);
+        });
     }
 
     if (!changes[this.storageKeys.PRODUCTS]) {
@@ -482,6 +529,10 @@ class SidebarController {
   }
 
   async refreshCurrentPage(options = {}) {
+    if (!this.showLivePreview) {
+      return;
+    }
+
     const force = options.force === true;
 
     await this.syncLiveAccessState();
@@ -536,6 +587,9 @@ class SidebarController {
 
     try {
       const response = await this.requestCurrentPageScrape(activeTab.id);
+      if (!this.showLivePreview) {
+        return;
+      }
 
       this.currentPageResult = response.data;
       this.syncCurrentPageExistingProduct();
@@ -552,6 +606,11 @@ class SidebarController {
   }
 
   async handleCurrentPageSave() {
+    if (!this.showLivePreview) {
+      this.showToast('Side panel live preview is hidden. Use the popup to save this page.', 'error');
+      return;
+    }
+
     if (!this.currentPageResult?.product) {
       await this.refreshCurrentPage({ force: true });
       return;
@@ -581,8 +640,61 @@ class SidebarController {
     }
   }
 
-  async handleActiveTabChanged(activeInfo) {
+  async handleCompactCurrentPageSave() {
+    this.elements.compactSaveCurrent.disabled = true;
+    const originalLabel = this.elements.compactSaveCurrent.textContent;
+    this.elements.compactSaveCurrent.textContent = 'Saving...';
+
+    try {
+      const activeTab = await this.prepareActiveTabForDirectSave();
+      const scrapeResponse = await this.requestCurrentPageScrape(activeTab.id);
+      const saveResponse = await this.sendRuntimeMessage({
+        type: this.messageTypes.SAVE_PRODUCT,
+        productData: scrapeResponse.data.product
+      });
+
+      this.showToast(
+        saveResponse.data.created ? 'Product saved from the side panel.' : 'Saved product updated.',
+        'success'
+      );
+    } catch (error) {
+      console.error('Compact current page save failed:', error);
+      this.showToast(error.message || 'Failed to save the current page.', 'error');
+    } finally {
+      this.elements.compactSaveCurrent.disabled = false;
+      this.elements.compactSaveCurrent.textContent = originalLabel;
+    }
+  }
+
+  async prepareActiveTabForDirectSave() {
+    await this.syncLiveAccessState();
+
     if (!this.hasLiveAccess) {
+      const granted = await chrome.permissions.request({
+        origins: ['https://*/*', 'http://*/*']
+      });
+
+      if (!granted) {
+        throw new Error('Live Save website access was not granted.');
+      }
+
+      await this.syncLiveAccessState();
+    }
+
+    const activeTab = await this.getActiveTab();
+    if (!activeTab?.id) {
+      throw new Error('Could not find an active browser tab to scan.');
+    }
+
+    if (!this.isSupportedUrl(activeTab.url)) {
+      throw new Error('Open a regular http or https product page before saving.');
+    }
+
+    return activeTab;
+  }
+
+  async handleActiveTabChanged(activeInfo) {
+    if (!this.showLivePreview || !this.hasLiveAccess) {
       return;
     }
 
@@ -592,7 +704,7 @@ class SidebarController {
   }
 
   async handleTabUpdated(tabId, changeInfo, tab) {
-    if (!this.hasLiveAccess) {
+    if (!this.showLivePreview || !this.hasLiveAccess) {
       return;
     }
 
@@ -612,7 +724,7 @@ class SidebarController {
   }
 
   async handleWindowFocusChanged(windowId) {
-    if (!this.hasLiveAccess) {
+    if (!this.showLivePreview || !this.hasLiveAccess) {
       return;
     }
 

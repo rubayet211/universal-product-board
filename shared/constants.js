@@ -117,6 +117,7 @@
   const DEFAULT_SETTINGS = {
     showNotifications: false,
     showDonationReminders: true,
+    showLivePreview: true,
     theme: 'system'
   };
 

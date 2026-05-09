@@ -207,6 +207,10 @@ body {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.98));
 }
 
+.current-page-section[hidden] {
+  display: none;
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -425,7 +429,43 @@ body {
 }
 
 .products-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   padding: 10px 16px 0;
+}
+
+.compact-save-button {
+  appearance: none;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--card-background);
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  white-space: nowrap;
+  transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.compact-save-button:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.compact-save-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+
+.compact-save-button[hidden] {
+  display: none;
 }
 
 .products-header {

@@ -12,6 +12,7 @@ $expectedOptionalPermissions = @("notifications")
 $expectedOptionalHostPermissions = @("http://*/*", "https://*/*")
 $runtimeFiles = @(
   "shared/constants.js",
+  "shared/theme.js",
   "shared/storage.js",
   "shared/scraper.js",
   "background/service-worker.js",

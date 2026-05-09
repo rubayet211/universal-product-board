@@ -39,6 +39,7 @@
         ...DEFAULT_SETTINGS,
         showNotifications: settings?.showNotifications === true,
         showDonationReminders: settings?.showDonationReminders !== false,
+        showLivePreview: settings?.showLivePreview !== false,
         theme: validThemes.has(requestedTheme) ? requestedTheme : DEFAULT_SETTINGS.theme
       };
     }

@@ -5,6 +5,7 @@ class OptionsController {
     this.elements = {
       themeSelect: document.getElementById('theme-select'),
       notifications: document.getElementById('show-notifications'),
+      livePreview: document.getElementById('show-live-preview'),
       donationReminders: document.getElementById('show-donation-reminders'),
       exportButton: document.getElementById('export-button'),
       importFile: document.getElementById('import-file'),
@@ -29,6 +30,10 @@ class OptionsController {
 
     this.elements.notifications.addEventListener('change', async () => {
       await this.handleNotificationsToggle();
+    });
+
+    this.elements.livePreview.addEventListener('change', async () => {
+      await this.handleLivePreviewToggle();
     });
 
     this.elements.donationReminders.addEventListener('change', async () => {
@@ -63,6 +68,7 @@ class OptionsController {
       try {
         const settings = await this.storage.getSettings();
         this.elements.themeSelect.value = settings.theme;
+        this.elements.livePreview.checked = settings.showLivePreview;
       } catch (error) {
         // Ignore storage refresh failures; the visible settings state will be corrected on next load.
       }
@@ -80,6 +86,7 @@ class OptionsController {
 
       this.elements.themeSelect.value = settings.theme;
       this.elements.notifications.checked = settings.showNotifications && notificationsGranted;
+      this.elements.livePreview.checked = settings.showLivePreview;
       this.elements.donationReminders.checked = settings.showDonationReminders;
     } catch (error) {
       this.showStatus(`Could not load settings: ${error.message}`, 'error');
@@ -139,6 +146,23 @@ class OptionsController {
     } catch (error) {
       this.elements.notifications.checked = !wantsNotifications;
       this.showStatus(`Could not update notification access: ${error.message}`, 'error');
+    }
+  }
+
+  async handleLivePreviewToggle() {
+    const showLivePreview = this.elements.livePreview.checked;
+
+    try {
+      await this.storage.updateSettings({ showLivePreview });
+      this.showStatus(
+        showLivePreview
+          ? 'Side panel live preview enabled.'
+          : 'Side panel live preview hidden. You can still save from the popup.',
+        'success'
+      );
+    } catch (error) {
+      this.elements.livePreview.checked = !showLivePreview;
+      this.showStatus(`Could not update side panel preview: ${error.message}`, 'error');
     }
   }
 
