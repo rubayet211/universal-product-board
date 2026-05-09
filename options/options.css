@@ -1,6 +1,9 @@
 :root {
   --primary: #09090b;
   --primary-hover: #27272a;
+  --primary-button-bg: #09090b;
+  --primary-button-bg-hover: #27272a;
+  --primary-button-text: #fff;
   --danger: #ef4444;
   --danger-hover: #dc2626;
   --surface-alt: #fafafa;
@@ -20,6 +23,9 @@
 :root[data-theme="dark"] {
   --primary: #f5f5f5;
   --primary-hover: #e4e4e7;
+  --primary-button-bg: #f5f5f5;
+  --primary-button-bg-hover: #e4e4e7;
+  --primary-button-text: #09090b;
   --danger: #ef4444;
   --danger-hover: #dc2626;
   --surface-alt: #18181b;
@@ -204,12 +210,12 @@ button:hover,
 }
 
 .primary-button {
-  background: var(--primary);
-  color: #fff;
+  background: var(--primary-button-bg);
+  color: var(--primary-button-text);
 }
 
 .primary-button:hover {
-  background: var(--primary-hover);
+  background: var(--primary-button-bg-hover);
 }
 
 .secondary-button {
@@ -284,7 +290,8 @@ button:hover,
   }
 
   .field-row {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .select-input {
