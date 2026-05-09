@@ -530,6 +530,9 @@ body {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 226px;
 }
 
 .product-card:hover {
@@ -541,9 +544,10 @@ body {
 .product-image-container {
   position: relative;
   width: 100%;
-  height: 120px;
+  height: 104px;
   background-color: var(--surface-color);
   overflow: hidden;
+  flex: 0 0 104px;
 }
 
 .product-image {
@@ -558,27 +562,34 @@ body {
 }
 
 .product-info {
-  padding: 12px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 120px;
+  padding: 10px 12px 12px;
 }
 
 .product-name {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
-  line-height: 1.4;
+  margin-bottom: 6px;
+  line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-height: 35px;
 }
 
 .product-price {
   font-size: 14px;
   font-weight: 600;
   color: var(--primary-color);
-  margin-bottom: 4px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+  min-height: 18px;
 }
 
 .product-website {
@@ -602,17 +613,21 @@ body {
 
 .list-view .product-card {
   display: flex;
+  flex-direction: row;
   height: 80px;
+  min-height: 80px;
 }
 
 .list-view .product-image-container {
   width: 80px;
   height: 80px;
+  flex-basis: 80px;
   flex-shrink: 0;
 }
 
 .list-view .product-info {
   flex: 1;
+  min-height: 0;
   padding: 8px 12px;
   display: flex;
   flex-direction: column;
@@ -622,11 +637,13 @@ body {
 .list-view .product-name {
   font-size: 14px;
   margin-bottom: 2px;
+  min-height: 0;
 }
 
 .list-view .product-price {
   font-size: 15px;
   margin-bottom: 2px;
+  min-height: 0;
 }
 
 .list-view .product-website {
