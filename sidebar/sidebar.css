@@ -817,6 +817,10 @@ body {
   color: var(--text-secondary);
 }
 
+:root[data-theme="dark"] .current-page-button.primary {
+  color: var(--background-color);
+}
+
 :root[data-theme="dark"] .sidebar-donation-reminder {
   background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(15, 23, 42, 0.96));
   border-color: rgba(245, 158, 11, 0.18);
