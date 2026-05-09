@@ -30,10 +30,16 @@
     }
 
     normalizeSettings(settings) {
+      const validThemes = new Set(['system', 'light', 'dark']);
+      const requestedTheme = typeof settings?.theme === 'string'
+        ? settings.theme
+        : DEFAULT_SETTINGS.theme;
+
       return {
         ...DEFAULT_SETTINGS,
         showNotifications: settings?.showNotifications === true,
-        showDonationReminders: settings?.showDonationReminders !== false
+        showDonationReminders: settings?.showDonationReminders !== false,
+        theme: validThemes.has(requestedTheme) ? requestedTheme : DEFAULT_SETTINGS.theme
       };
     }
 

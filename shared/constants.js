@@ -116,7 +116,8 @@
 
   const DEFAULT_SETTINGS = {
     showNotifications: false,
-    showDonationReminders: true
+    showDonationReminders: true,
+    theme: 'system'
   };
 
   const DONATION = {

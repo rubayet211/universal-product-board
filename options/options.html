@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Universal Product Board Settings</title>
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/theme.js"></script>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -32,6 +34,17 @@
         <h2>Preferences</h2>
         <p>Only the settings used by the public release are exposed here.</p>
       </div>
+      <label class="field-row" for="theme-select">
+        <div>
+          <span class="field-title">Theme</span>
+          <span class="field-copy">Choose whether the extension follows your system setting or always uses a specific theme.</span>
+        </div>
+        <select id="theme-select" class="select-input">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
       <label class="toggle-row" for="show-notifications">
         <div>
           <span class="toggle-title">Save notifications</span>
@@ -72,8 +85,6 @@
       <p id="stats-text" class="stats-text">Loading current storage usage...</p>
     </section>
   </main>
-
-  <script src="../shared/constants.js"></script>
   <script src="../shared/storage.js"></script>
   <script src="options.js"></script>
 </body>

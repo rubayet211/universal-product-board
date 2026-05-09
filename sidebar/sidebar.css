@@ -786,31 +786,90 @@ body {
 }
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary-color: #818cf8;
-    --primary-hover: #6366f1;
-    --primary-light: rgba(99, 102, 241, 0.15);
-    --background-color: #0f172a;
-    --surface-color: rgba(30, 41, 59, 0.8);
-    --card-background: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-muted: #64748b;
-    --border-color: rgba(51, 65, 85, 0.8);
-    --glass-border: 1px solid rgba(255, 255, 255, 0.05);
-    --header-bg: rgba(15, 23, 42, 0.85);
-    --title-gradient: linear-gradient(135deg, #f8fafc, #818cf8);
-    --search-bg: #1e293b;
-  }
+:root[data-theme="dark"] {
+  --primary-color: #a5b4fc;
+  --primary-hover: #818cf8;
+  --primary-light: rgba(129, 140, 248, 0.18);
+  --secondary-color: #cbd5e1;
+  --background-color: #020617;
+  --surface-color: rgba(15, 23, 42, 0.92);
+  --card-background: #111827;
+  --text-primary: #f8fafc;
+  --text-secondary: #dbe4f0;
+  --text-muted: #94a3b8;
+  --border-color: rgba(71, 85, 105, 0.75);
+  --glass-border: 1px solid rgba(148, 163, 184, 0.08);
+  --header-bg: rgba(2, 6, 23, 0.88);
+  --title-gradient: linear-gradient(135deg, #f8fafc, #a5b4fc);
+  --search-bg: #0f172a;
+}
 
-  .current-page-section {
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
-  }
+:root[data-theme="dark"] .current-page-section {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.99));
+}
 
-  .sidebar-donation-reminder {
-    background: linear-gradient(180deg, rgba(245, 158, 11, 0.16), rgba(30, 41, 59, 0.95));
-  }
+:root[data-theme="dark"] .current-page-copy,
+:root[data-theme="dark"] .current-page-note,
+:root[data-theme="dark"] .sidebar-donation-text,
+:root[data-theme="dark"] .empty-state p,
+:root[data-theme="dark"] .loading-state,
+:root[data-theme="dark"] .products-toolbar a {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .current-page-button.primary {
+  color: var(--background-color);
+}
+
+:root[data-theme="dark"] .sidebar-donation-reminder {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(15, 23, 42, 0.96));
+  border-color: rgba(245, 158, 11, 0.18);
+}
+
+:root[data-theme="dark"] .products-header,
+:root[data-theme="dark"] .products-toolbar {
+  background-color: var(--background-color);
+}
+
+:root[data-theme="dark"] .icon-button {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .icon-button:hover {
+  background-color: var(--primary-light);
+  color: var(--text-primary);
+  border-color: rgba(165, 180, 252, 0.2);
+}
+
+:root[data-theme="dark"] .view-toggle {
+  background: var(--card-background);
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .view-toggle:hover {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+:root[data-theme="dark"] .view-toggle.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #020617;
+}
+
+:root[data-theme="dark"] .sort-menu-item {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .sort-menu-item:hover,
+:root[data-theme="dark"] .sort-menu-item.active {
+  background: var(--surface-color);
+  color: var(--text-primary);
+}
+
+:root[data-theme="dark"] .clear-button:hover {
+  background-color: var(--primary-light);
+  color: var(--text-primary);
 }
 
 /* Scrollbar styling */

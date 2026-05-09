@@ -3,6 +3,7 @@ class OptionsController {
   constructor() {
     this.storage = UniversalProductBoard.storageManager;
     this.elements = {
+      themeSelect: document.getElementById('theme-select'),
       notifications: document.getElementById('show-notifications'),
       donationReminders: document.getElementById('show-donation-reminders'),
       exportButton: document.getElementById('export-button'),
@@ -16,11 +17,16 @@ class OptionsController {
 
   async init() {
     this.bindEvents();
+    this.bindStorageEvents();
     await this.loadSettings();
     await this.refreshStats();
   }
 
   bindEvents() {
+    this.elements.themeSelect.addEventListener('change', async () => {
+      await this.handleThemeChange();
+    });
+
     this.elements.notifications.addEventListener('change', async () => {
       await this.handleNotificationsToggle();
     });
@@ -48,6 +54,21 @@ class OptionsController {
     });
   }
 
+  bindStorageEvents() {
+    this.storage.addChangeListener(async (changes) => {
+      if (!changes[UniversalProductBoard.STORAGE_KEYS.SETTINGS]) {
+        return;
+      }
+
+      try {
+        const settings = await this.storage.getSettings();
+        this.elements.themeSelect.value = settings.theme;
+      } catch (error) {
+        // Ignore storage refresh failures; the visible settings state will be corrected on next load.
+      }
+    });
+  }
+
   async loadSettings() {
     try {
       const settings = await this.storage.getSettings();
@@ -57,10 +78,29 @@ class OptionsController {
         await this.storage.updateSettings({ showNotifications: false });
       }
 
+      this.elements.themeSelect.value = settings.theme;
       this.elements.notifications.checked = settings.showNotifications && notificationsGranted;
       this.elements.donationReminders.checked = settings.showDonationReminders;
     } catch (error) {
       this.showStatus(`Could not load settings: ${error.message}`, 'error');
+    }
+  }
+
+  async handleThemeChange() {
+    const selectedTheme = this.elements.themeSelect.value;
+
+    try {
+      const updatedSettings = await this.storage.updateSettings({
+        theme: selectedTheme
+      });
+
+      UniversalProductBoard.themeManager.applyTheme(updatedSettings.theme);
+      UniversalProductBoard.themeManager.syncSystemListener(updatedSettings.theme);
+
+      this.showStatus(`Theme updated to ${updatedSettings.theme}.`, 'success');
+    } catch (error) {
+      await this.loadSettings();
+      this.showStatus(`Could not update theme: ${error.message}`, 'error');
     }
   }
 
