@@ -113,6 +113,7 @@ There is no package manager or build step.
 Useful validation commands:
 
 ```powershell
+powershell -ExecutionPolicy Bypass -File scripts/build-chrome-webstore-package.ps1
 node --check shared/constants.js
 node --check shared/storage.js
 node --check shared/scraper.js
@@ -123,6 +124,12 @@ node --check sidebar/sidebar.js
 node --check options/options.js
 powershell -ExecutionPolicy Bypass -File scripts/validate-release.ps1
 powershell -ExecutionPolicy Bypass -File scripts/package-extension.ps1
+```
+
+For the normal Chrome Web Store packaging flow, use the one-command script:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/build-chrome-webstore-package.ps1
 ```
 
 ## Release Materials

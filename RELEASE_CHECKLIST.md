@@ -3,8 +3,8 @@
 ## Pre-release
 
 1. Confirm `manifest.json` version is the intended release version.
-2. Run `powershell -ExecutionPolicy Bypass -File scripts/validate-release.ps1`.
-3. Run `powershell -ExecutionPolicy Bypass -File scripts/package-extension.ps1`.
+2. Run `powershell -ExecutionPolicy Bypass -File scripts/build-chrome-webstore-package.ps1`.
+3. If needed, run `powershell -ExecutionPolicy Bypass -File scripts/validate-release.ps1` or `powershell -ExecutionPolicy Bypass -File scripts/package-extension.ps1` individually for troubleshooting.
 4. Confirm `dist/universal-product-board-1.3.0.zip` exists and contains only runtime files.
 
 ## Manual Chrome QA
