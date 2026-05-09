@@ -117,7 +117,7 @@
 
   global.UniversalProductBoard = namespace;
 
-  applyAndSyncTheme(DEFAULT_SETTINGS.theme);
+  applyTheme(DEFAULT_SETTINGS.theme);
   subscribeToThemeChanges();
   void applyStoredTheme();
 })(typeof globalThis !== 'undefined' ? globalThis : self);
