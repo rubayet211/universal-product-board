@@ -118,6 +118,7 @@
     showNotifications: false,
     showDonationReminders: true,
     showLivePreview: true,
+    showPopupDisclosure: true,
     theme: 'system'
   };
 

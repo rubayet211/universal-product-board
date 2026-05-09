@@ -24,6 +24,7 @@ class PopupController {
       previewPrice: document.getElementById('preview-price'),
       previewWebsite: document.getElementById('preview-website'),
       previewNote: document.getElementById('preview-note'),
+      popupDisclosure: document.getElementById('popup-disclosure'),
       message: document.getElementById('message'),
       messageText: document.getElementById('message-text'),
       donationReminder: document.getElementById('donation-reminder'),
@@ -38,6 +39,7 @@ class PopupController {
 
   async init() {
     this.setupEventListeners();
+    await this.applySettings();
     await this.loadProductCount();
     await this.updateDonationReminder();
 
@@ -100,6 +102,16 @@ class PopupController {
     } catch (error) {
       console.error('Failed to load product count:', error);
       this.updateProductCount(0);
+    }
+  }
+
+  async applySettings() {
+    try {
+      const settings = await this.storage.getSettings();
+      this.elements.popupDisclosure.hidden = !settings.showPopupDisclosure;
+    } catch (error) {
+      console.error('Failed to load popup settings:', error);
+      this.elements.popupDisclosure.hidden = false;
     }
   }
 
