@@ -3,6 +3,7 @@
 :root {
   --primary-color: #09090b;
   --primary-hover: #27272a;
+  --primary-button-fg: #ffffff;
   --secondary-color: #52525b;
   --success-color: #10b981;
   --warning-color: #f59e0b;
@@ -12,6 +13,9 @@
   --text-primary: #09090b;
   --text-secondary: #52525b;
   --border-color: #e4e4e7;
+  --donation-reminder-border: rgba(245, 158, 11, 0.3);
+  --donation-reminder-start: rgba(245, 158, 11, 0.12);
+  --donation-reminder-end: rgba(255, 255, 255, 0.75);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --border-radius: 8px;
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -20,12 +24,16 @@
 :root[data-theme="dark"] {
   --primary-color: #f5f5f5;
   --primary-hover: #e4e4e7;
+  --primary-button-fg: #09090b;
   --secondary-color: #a1a1aa;
   --background-color: #09090b;
   --surface-color: #18181b;
   --text-primary: #fafafa;
   --text-secondary: #d4d4d8;
   --border-color: #3f3f46;
+  --donation-reminder-border: rgba(245, 158, 11, 0.35);
+  --donation-reminder-start: rgba(245, 158, 11, 0.18);
+  --donation-reminder-end: var(--surface-color);
   --shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.65);
 }
 
@@ -122,9 +130,9 @@ body {
 .donation-reminder {
   margin-bottom: 16px;
   padding: 12px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid var(--donation-reminder-border);
   border-radius: var(--border-radius);
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(255, 255, 255, 0.75));
+  background: linear-gradient(180deg, var(--donation-reminder-start), var(--donation-reminder-end));
 }
 
 .donation-reminder-title {
@@ -182,7 +190,7 @@ body {
 
 .primary-button {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--primary-button-fg);
   box-shadow: var(--shadow);
 }
 
@@ -338,11 +346,6 @@ body {
 .separator {
   color: var(--text-secondary);
   font-size: 12px;
-}
-
-:root[data-theme="dark"] .donation-reminder {
-  border-color: rgba(245, 158, 11, 0.35);
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.18), rgba(24, 24, 27, 0.96));
 }
 
 /* Loading State */
