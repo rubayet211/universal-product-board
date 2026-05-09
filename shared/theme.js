@@ -12,6 +12,8 @@
   const mediaQuery = typeof global.matchMedia === 'function'
     ? global.matchMedia('(prefers-color-scheme: dark)')
     : null;
+  const storage = global.chrome?.storage?.local || null;
+  const storageChangeEvents = global.chrome?.storage?.onChanged || null;
   const root = document.documentElement;
 
   let removeSystemListener = null;
@@ -42,8 +44,19 @@
     return resolvedTheme;
   }
 
+  function applyAndSyncTheme(theme) {
+    const normalizedTheme = normalizeTheme(theme);
+    applyTheme(normalizedTheme);
+    syncSystemListener(normalizedTheme);
+    return normalizedTheme;
+  }
+
   async function getStoredTheme() {
-    const result = await chrome.storage.local.get(STORAGE_KEYS.SETTINGS);
+    if (!storage) {
+      return DEFAULT_SETTINGS.theme;
+    }
+
+    const result = await storage.get(STORAGE_KEYS.SETTINGS);
     const storedSettings = result?.[STORAGE_KEYS.SETTINGS] || {};
     return normalizeTheme(storedSettings.theme);
   }
@@ -76,9 +89,22 @@
 
   async function applyStoredTheme() {
     const theme = await getStoredTheme();
-    applyTheme(theme);
-    syncSystemListener(theme);
-    return theme;
+    return applyAndSyncTheme(theme);
+  }
+
+  function handleStorageChange(changes, areaName) {
+    if (areaName !== 'local' || !changes?.[STORAGE_KEYS.SETTINGS]) {
+      return;
+    }
+
+    const nextSettings = changes[STORAGE_KEYS.SETTINGS].newValue || {};
+    applyAndSyncTheme(nextSettings.theme);
+  }
+
+  function subscribeToThemeChanges() {
+    if (typeof storageChangeEvents?.addListener === 'function') {
+      storageChangeEvents.addListener(handleStorageChange);
+    }
   }
 
   namespace.themeManager = {
@@ -91,6 +117,7 @@
 
   global.UniversalProductBoard = namespace;
 
-  applyTheme(DEFAULT_SETTINGS.theme);
+  applyAndSyncTheme(DEFAULT_SETTINGS.theme);
+  subscribeToThemeChanges();
   void applyStoredTheme();
 })(typeof globalThis !== 'undefined' ? globalThis : self);
