@@ -17,6 +17,7 @@ class OptionsController {
 
   async init() {
     this.bindEvents();
+    this.bindStorageEvents();
     await this.loadSettings();
     await this.refreshStats();
   }
@@ -50,6 +51,21 @@ class OptionsController {
 
     this.elements.clearButton.addEventListener('click', async () => {
       await this.handleClearProducts();
+    });
+  }
+
+  bindStorageEvents() {
+    this.storage.addChangeListener(async (changes) => {
+      if (!changes[UniversalProductBoard.STORAGE_KEYS.SETTINGS]) {
+        return;
+      }
+
+      try {
+        const settings = await this.storage.getSettings();
+        this.elements.themeSelect.value = settings.theme;
+      } catch (error) {
+        // Ignore storage refresh failures; the visible settings state will be corrected on next load.
+      }
     });
   }
 
