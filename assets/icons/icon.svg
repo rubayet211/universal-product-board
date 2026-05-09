@@ -1,0 +1,18 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#6366f1" stroke="#4f46e5" stroke-width="8"/>
+
+  <!-- Shopping bag -->
+  <path d="M40 45C40 40.0294 44.0294 36 49 36H79C83.9706 36 88 40.0294 88 45V95C88 99.9706 83.9706 104 79 104H49C44.0294 104 40 99.9706 40 95V45Z" fill="white"/>
+  <path d="M48 45V42C48 37.0294 52.0294 33 57 33H71C75.9706 33 80 37.0294 80 42V45" fill="white" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="57" cy="50" r="3" fill="#6366f1"/>
+  <circle cx="71" cy="50" r="3" fill="#6366f1"/>
+
+  <!-- Product items inside bag -->
+  <rect x="50" y="55" width="28" height="4" rx="2" fill="#e2e8f0"/>
+  <rect x="50" y="65" width="20" height="4" rx="2" fill="#e2e8f0"/>
+  <rect x="50" y="75" width="24" height="4" rx="2" fill="#e2e8f0"/>
+
+  <!-- Star bookmark -->
+  <path d="M85 25L87.682 30.562L94 30.816L89.34 35.188L90.364 41.184L85 38.062L79.636 41.184L80.66 35.188L76 30.816L82.318 30.562L85 25Z" fill="white"/>
+</svg>

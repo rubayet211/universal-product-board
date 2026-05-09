@@ -1,0 +1,226 @@
+:root {
+  --primary: #09090b;
+  --primary-hover: #27272a;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --surface-alt: #fafafa;
+  --border: #e4e4e7;
+  --text: #09090b;
+  --text-muted: #71717a;
+  --success-bg: #dcfce7;
+  --success-text: #166534;
+  --error-bg: #fee2e2;
+  --error-text: #991b1b;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --font: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background-color: #fafafa;
+}
+
+.options-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.page-copy,
+.panel-heading p,
+.toggle-copy,
+.helper-text,
+.stats-text {
+  color: var(--text-muted);
+}
+
+.info-callout {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #ffffff, var(--surface-alt));
+}
+
+.info-callout p {
+  margin-bottom: 10px;
+}
+
+.text-link {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  margin-bottom: 18px;
+  backdrop-filter: blur(8px);
+}
+
+.panel-heading {
+  margin-bottom: 18px;
+}
+
+.panel-heading h2 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+}
+
+.toggle-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.toggle-row input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+}
+
+.toggle-row + .helper-text {
+  margin-top: 12px;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+button,
+.import-button {
+  appearance: none;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s ease, background-color 0.18s ease;
+  text-align: center;
+}
+
+button:hover,
+.import-button:hover {
+  transform: translateY(-1px);
+}
+
+.primary-button {
+  background: var(--primary);
+  color: #fff;
+}
+
+.primary-button:hover {
+  background: var(--primary-hover);
+}
+
+.secondary-button {
+  background: #e2e8f0;
+  color: var(--text);
+}
+
+.danger-button {
+  background: var(--danger);
+  color: #fff;
+}
+
+.danger-button:hover {
+  background: var(--danger-hover);
+}
+
+#import-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.status-message {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.status-message.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.status-message.warning {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+@media (max-width: 600px) {
+  .options-page {
+    padding: 24px 14px 40px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .toggle-row {
+    align-items: flex-start;
+  }
+}

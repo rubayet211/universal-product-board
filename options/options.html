@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universal Product Board Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main class="options-page">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Universal Product Board</p>
+        <h1>Settings</h1>
+        <p class="page-copy">Manage local storage behavior, optional permissions, and board exports for your browser-only product list.</p>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Privacy</h2>
+        <p>The extension only reads the current tab when you ask it to and stores saved products locally in this browser.</p>
+      </div>
+      <div class="info-callout">
+        <p>No analytics, remote sync, or accounts are included in this release. Product preview images may load directly from merchant or CDN hosts.</p>
+        <a id="privacy-policy-link" class="text-link" href="../privacy-policy.html" target="_blank" rel="noreferrer">Read the privacy policy</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Preferences</h2>
+        <p>Only the settings used by the public release are exposed here.</p>
+      </div>
+      <label class="toggle-row" for="show-notifications">
+        <div>
+          <span class="toggle-title">Save notifications</span>
+          <span class="toggle-copy">Ask Chrome for notification access and show a notification after a product is saved.</span>
+        </div>
+        <input id="show-notifications" type="checkbox">
+      </label>
+      <p class="helper-text">Notifications stay off unless you explicitly grant the optional permission.</p>
+      <label class="toggle-row" for="show-donation-reminders">
+        <div>
+          <span class="toggle-title">Weekly donation reminders</span>
+          <span class="toggle-copy">Show a small once-a-week donation reminder in the popup and side panel while keeping the donate link visible at all times.</span>
+        </div>
+        <input id="show-donation-reminders" type="checkbox">
+      </label>
+      <p class="helper-text">Donation reminders are local, dismissible for 7 days, and never open the donation page automatically.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Data</h2>
+        <p>Everything stays in local extension storage.</p>
+      </div>
+      <div class="button-grid">
+        <button id="export-button" class="primary-button">Export board data</button>
+        <label class="secondary-button import-button" for="import-file">Import board data</label>
+        <input id="import-file" type="file" accept="application/json">
+        <button id="clear-button" class="danger-button">Clear all saved products</button>
+      </div>
+      <p class="helper-text">Imports replace the current saved board, keep only valid http or https product URLs, and overwrite supported settings.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Status</h2>
+      </div>
+      <div id="status-message" class="status-message" hidden></div>
+      <p id="stats-text" class="stats-text">Loading current storage usage...</p>
+    </section>
+  </main>
+
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/storage.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

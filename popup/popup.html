@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universal Product Board</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="popup-container">
+    <header class="popup-header">
+      <h1 class="popup-title">Universal Product Board</h1>
+      <div class="status-indicator" id="status-indicator">
+        <div class="status-dot" id="status-dot"></div>
+        <span class="status-text" id="status-text">Ready</span>
+      </div>
+    </header>
+
+    <main class="popup-main">
+      <div class="action-section">
+        <button id="save-button" class="primary-button">
+          <svg class="button-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="save-button-label">Save to Board</span>
+        </button>
+
+        <button id="sidebar-toggle" class="secondary-button">
+          <svg class="button-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          View Board
+        </button>
+      </div>
+
+      <section class="disclosure-card" aria-label="Privacy disclosure">
+        <p class="disclosure-title">Local-first and on demand</p>
+        <p class="disclosure-copy">This extension only reads the current page when you ask it to, saved products stay in this browser, and preview images may load from merchant or CDN hosts.</p>
+      </section>
+
+      <section id="donation-reminder" class="donation-reminder" hidden aria-label="Donation reminder">
+        <div class="donation-reminder-copy">
+          <p class="donation-reminder-title">Support Universal Product Board</p>
+          <p class="donation-reminder-text">If this local product board saves you time, you can support future maintenance with a small donation.</p>
+        </div>
+        <div class="donation-reminder-actions">
+          <button id="donation-donate-button" class="secondary-button donation-action">Donate</button>
+          <button id="donation-dismiss-button" class="donation-link-button" type="button">Not now</button>
+        </div>
+      </section>
+
+      <div class="product-preview" id="product-preview" style="display: none;">
+        <div class="preview-image">
+          <img id="preview-image" src="" alt="Product preview">
+        </div>
+        <div class="preview-info">
+          <h3 id="preview-title">Product Title</h3>
+          <p id="preview-price">Price not available</p>
+          <p id="preview-website">Website</p>
+          <p id="preview-note" class="preview-note"></p>
+        </div>
+      </div>
+
+      <div class="message-section" id="message-section">
+        <div class="message" id="message" style="display: none;">
+          <svg class="message-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="message-text"></span>
+        </div>
+      </div>
+    </main>
+
+    <footer class="popup-footer">
+      <div class="stats" id="stats">
+        <span id="product-count">0 products saved</span>
+      </div>
+      <div class="footer-links">
+        <a href="#" id="view-all-link">View All</a>
+        <span class="separator">•</span>
+        <a href="#" id="settings-link">Settings</a>
+        <span class="separator">•</span>
+        <a href="#" id="donate-link">Donate</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

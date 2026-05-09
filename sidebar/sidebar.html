@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Product Board - Universal Product Board</title>
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <div id="sidebar-container">
+    <header class="sidebar-header">
+      <div class="header-content">
+        <h1 class="sidebar-title">My Product Board</h1>
+        <div class="header-actions">
+          <button id="refresh-button" class="icon-button" title="Refresh">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4V9H4.582M4.582 9C5.205 7.784 6.449 7 8 7C10.209 7 12 8.791 12 11M4.582 9H9M20 20V15H19.418M19.418 15C18.795 16.216 17.551 17 16 17C13.791 17 12 15.209 12 13M19.418 15H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button id="sort-button" class="icon-button" title="Sort products">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button id="close-button" class="icon-button" title="Close sidebar">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-section">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" id="search-input" placeholder="Search products..." autocomplete="off">
+          <button id="clear-search" class="clear-button" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="sidebar-main">
+      <section class="current-page-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-eyebrow">Current Page</p>
+            <h2 class="current-page-title">Save while you browse</h2>
+          </div>
+          <span id="current-page-status" class="current-page-status">Checking access</span>
+        </div>
+
+        <div id="current-page-card" class="current-page-card">
+          <div id="current-page-empty" class="current-page-state">
+            <p class="current-page-copy">Live Save is optional. If you enable website access, this side panel can follow the active shopping tab and keep a save card ready while you browse.</p>
+            <button id="enable-live-save" class="current-page-button primary">Enable Live Save</button>
+          </div>
+
+          <div id="current-page-loading" class="current-page-state" hidden>
+            <div class="mini-spinner"></div>
+            <p class="current-page-copy">Scanning the active page...</p>
+          </div>
+
+          <div id="current-page-preview" class="current-page-preview" hidden>
+            <div class="current-page-preview-image">
+              <img id="current-preview-image" src="" alt="Current page product preview">
+            </div>
+            <div class="current-page-preview-info">
+              <p id="current-preview-site" class="current-page-site">Current site</p>
+              <h3 id="current-preview-title">Product title</h3>
+              <p id="current-preview-price" class="current-page-price">Price not available</p>
+              <p id="current-preview-note" class="current-page-note"></p>
+            </div>
+            <div class="current-page-actions">
+              <button id="current-save-button" class="current-page-button primary">Save to Board</button>
+              <button id="current-refresh-button" class="current-page-button secondary">Refresh Preview</button>
+            </div>
+          </div>
+
+          <div id="current-page-error" class="current-page-state" hidden>
+            <p id="current-page-error-text" class="current-page-copy">This page could not be scanned right now.</p>
+            <button id="current-page-retry" class="current-page-button secondary">Try Again</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="donation-reminder" class="sidebar-donation-reminder" hidden>
+        <div class="sidebar-donation-copy">
+          <p class="sidebar-donation-title">Enjoying the extension?</p>
+          <p class="sidebar-donation-text">You can support future fixes and improvements with a small donation. Core save and browse features stay the same either way.</p>
+        </div>
+        <div class="sidebar-donation-actions">
+          <button id="sidebar-donate-button" class="current-page-button primary" type="button">Donate</button>
+          <button id="sidebar-dismiss-donation" class="sidebar-donation-link" type="button">Not now</button>
+        </div>
+      </section>
+
+      <div class="products-section">
+        <div class="products-header">
+          <h2 id="products-count">Loading products...</h2>
+          <div class="view-toggles">
+            <button id="grid-view" class="view-toggle active" title="Grid view">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3H10V10H3V3ZM14 3H21V10H14V3ZM14 14H21V21H14V14ZM3 14H10V21H3V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button id="list-view" class="view-toggle" title="List view">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="products-toolbar">
+          <a href="#" id="sidebar-donate-link" class="sidebar-donate-link">Support this extension</a>
+        </div>
+
+        <div id="sort-menu" class="sort-menu" hidden>
+          <button class="sort-menu-item" data-sort="newest">Newest First</button>
+          <button class="sort-menu-item" data-sort="oldest">Oldest First</button>
+          <button class="sort-menu-item" data-sort="name">Name A-Z</button>
+          <button class="sort-menu-item" data-sort="price-low">Price Low-High</button>
+          <button class="sort-menu-item" data-sort="price-high">Price High-Low</button>
+        </div>
+
+        <div id="products-container" class="products-container grid-view">
+          <!-- Products will be dynamically inserted here -->
+        </div>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+          <div class="empty-state-content">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 7L12 13L4 7M4 7L4 17C4 17.5304 4.21071 18.0391 4.58579 18.4142C4.96086 18.7893 5.46957 19 6 19H18C18.5304 19 19.0391 18.7893 19.4142 18.4142C19.7893 18.0391 20 17.5304 20 17V7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3>No products saved yet</h3>
+            <p>Click the extension icon on any product page to start building your board.</p>
+          </div>
+        </div>
+
+        <div id="loading-state" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Loading your products...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Product context menu -->
+    <div id="context-menu" class="context-menu" style="display: none;">
+      <button class="context-menu-item" data-action="open">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 6H6C4.89543 6 4 6.89543 4 8V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V14M14 4H20M20 4V10M20 4L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Open Product Page
+      </button>
+      <button class="context-menu-item" data-action="copy-link">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 16H6C4.89543 16 4 15.1046 4 14V6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V8M10 12H18C19.1046 12 20 12.8954 20 14V18C20 19.1046 19.1046 20 18 20H14C12.8954 20 12 19.1046 12 18V14C12 12.8954 12.8954 12 14 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Copy Link
+      </button>
+      <button class="context-menu-item delete" data-action="delete">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Delete Product
+      </button>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+  </div>
+
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/storage.js"></script>
+  <script src="sidebar.js"></script>
+</body>
+</html>

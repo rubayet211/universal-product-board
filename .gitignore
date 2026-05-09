@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local git/editor artifacts
+.idea/
+.vscode/
+
+# Local superpowers/brainstorming artifacts
+.superpowers/
+
+# Build/package outputs
+dist/
+
+# Temporary runtime files
+tmp/
